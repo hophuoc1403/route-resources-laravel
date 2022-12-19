@@ -6,6 +6,7 @@ use \App\Http\Controllers\Admin\CategoryController;
 use \App\Http\Controllers\Admin\ProductController;
 use \App\Http\Controllers\UserController;
 use \App\Http\Controllers\Admin\PetController;
+use \App\Http\Controllers\UserProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +19,7 @@ use \App\Http\Controllers\Admin\PetController;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-})->name('user');
+Route::get('/', [UserProductController::class,'index'])->name('user');
 
 Route::prefix('/admin')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin')->middleware("isAdmin");
@@ -58,3 +57,4 @@ Route::prefix('/auth')->group(function () {
    Route::get('/admin-login',[UserController::class,'adminLogin'])->name('admin.login') ;
    Route::post('/admin-login',[UserController::class,'handleAdminLogin'])->name('admin.login') ;
 });
+
