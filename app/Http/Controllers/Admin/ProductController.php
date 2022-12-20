@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoteProductRequest;
 use App\Models\Category;
 use App\Models\Product;
+use http\Env\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Route;
+use function PHPUnit\Framework\isEmpty;
 
 
 class ProductController extends Controller
@@ -75,5 +78,25 @@ class ProductController extends Controller
         } catch (\Throwable $err) {
             return redirect()->route('admin.product')->with('error', "delete Category failed" . $err->getMessage());
         }
+    }
+
+    public function newestProduct(){
+        $newestProducts = Product::orderBy('created_at',"DESC")->offset(0)->limit(8)->get();
+        $saleProducts =new  Product;
+        return view('index',['newestProducts'=>$newestProducts ?? [],'saleProducts'=>$saleProducts->getBestSale(8) ?? []]);
+    }
+
+    public function show($id){
+        $product = Product::find($id);
+        return view('productDetail',compact('product'));
+    }
+    public function handleSearch(\Illuminate\Http\Request $request){
+        if($request->name !== null){
+       $result =  new Product;
+       return view('search',['result'=>$result->search() ?? [],'query'=>request()->name ?? ""]);
+        }else {
+            return redirect()->back();
+        }
+
     }
 }

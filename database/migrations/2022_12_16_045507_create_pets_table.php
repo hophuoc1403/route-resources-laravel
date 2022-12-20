@@ -23,6 +23,7 @@ return new class extends Migration
             $table->softDeletes();
             $table->string('image');
             $table->timestamps();
+            $table->bigInteger('category_id')->unsigned();
         });
     }
 

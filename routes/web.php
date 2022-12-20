@@ -18,9 +18,7 @@ use \App\Http\Controllers\Admin\PetController;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-})->name('user');
+Route::get('/',[ProductController::class,'newestProduct'])->name('home');
 
 Route::prefix('/admin')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin')->middleware("isAdmin");
@@ -58,3 +56,5 @@ Route::prefix('/auth')->group(function () {
    Route::get('/admin-login',[UserController::class,'adminLogin'])->name('admin.login') ;
    Route::post('/admin-login',[UserController::class,'handleAdminLogin'])->name('admin.login') ;
 });
+Route::get('/product/{id}',[ProductController::class,'show'])->name('product.show');
+Route::get('/search/',[ProductController::class,'handleSearch'])->name('product.search');

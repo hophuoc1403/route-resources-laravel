@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePetsRequest;
-use App\Http\Requests\StoreUserRequest;
 use App\Models\Category;
 use App\Models\Pet;
-use Illuminate\Http\File;
-use Illuminate\Http\Request;
+
 
 class PetController extends Controller
 {
@@ -115,6 +113,11 @@ class PetController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(Pet::find($id)->delete()){
+            return redirect()->back();
+        }else{
+            return redirect()->back()->with('err','delete failed');
+        }
+
     }
 }
